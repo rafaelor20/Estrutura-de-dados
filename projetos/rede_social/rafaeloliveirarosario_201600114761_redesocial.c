@@ -3,8 +3,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-char* ok = "[ OK  ] ";
-char* error = "[ERROR] ";
+char* okAdd = "[ OK  ] ADD";
+char* errorAdd = "[ERROR] ADD";
+char* okRemove = "[ OK  ] REMOVE";
+char* errorRemove = "[ERROR] REMOVE";
+char* okShow = "[ OK  ] ";
+char* errorShow = "[ERROR] ";
+
 
 struct node {
    char *data;
@@ -68,7 +73,7 @@ struct node* find(char *data) {
 }
 
 //insert link at the last location
-void insertLast(char *data) {
+bool insertLast(char *data) {
    //create a link
    struct node *link = (struct node*) malloc(sizeof(struct node));
    link->data = data;
@@ -78,6 +83,7 @@ void insertLast(char *data) {
          head = link;
          head->next = link;
          head->previous = link;
+         return true;
       } 
       else {
          struct node *last = head->previous;
@@ -94,16 +100,19 @@ void insertLast(char *data) {
 	
          //point first to new last node
          head->previous = link;
+         return true;
       }
+   } else {
+      return false;
    }
 }
 
 //delete a link with given key
-struct node* delete(char *data) {
+bool delete(char *data) {
 	
    //if list is empty
-   if(current == NULL) {
-      return NULL;
+   if(head == NULL) {
+      return false;
    }
 
    //start from the first link
@@ -115,7 +124,7 @@ struct node* delete(char *data) {
    while(current->data != data) {
       //if it is last node
       if(current->next == head) {
-         return NULL;
+         return false;
       } else {
          current = current -> next;
       }
@@ -126,7 +135,7 @@ struct node* delete(char *data) {
    temp->next = current->next;
    temp = current->next;
    temp->previous = current->previous;
-   return current; 
+   return true; 
 }
 
 char* show(struct node* node){
@@ -164,21 +173,50 @@ int main(int argc, char* argv[]) {
          for(i = 0; i < 4; i++ ){
             readline++;
          }
-         insertLast(readline);
-      } else if(readline[0] == 'R'){
-         for(i = 0; i < 7; i++ ){
-            readline++;
-         }
-         delete(readline);
-      } else {
-         for(i = 0; i < 5; i++ ){
-            readline++;
-         }
-         show(find(readline));
+         if (insertLast(readline)){
+            strcat(writeline, okAdd);
+            strcat(writeline, readline);
+            strcat(writeline, "\n");
+            fputs(writeline, output);
+            } else {
+            strcat(writeline, errorAdd);
+            strcat(writeline, readline);
+            strcat(writeline, "\n");
+            fputs(writeline, output);
+            }
+         } else if(readline[0] == 'R'){
+            for(i = 0; i < 7; i++ ){
+               readline++;
+            }
+            if(delete(readline)){
+               strcat(writeline, okRemove);
+               strcat(writeline, readline);
+               strcat(writeline, "\n");
+               fputs(writeline, output);
+            } else {
+               strcat(writeline, errorRemove);
+               strcat(writeline, readline);
+               strcat(writeline, "\n");
+               fputs(writeline, output);
+               }
+         } else {
+            for(i = 0; i < 5; i++ ){
+               readline++;
+            }
+            if(show(find(readline))){
+               strcat(writeline, okShow);
+               strcat(writeline, readline);
+               strcat(writeline, "\n");
+               fputs(writeline, output);
+            } else {
+               strcat(writeline, errorShow);
+               strcat(writeline, readline);
+               strcat(writeline, "\n");
+               fputs(writeline, output);
+               }
+            }
+         
       }
-
-
-   }
 
 	// Fechando arquivos
 	fclose(input);
