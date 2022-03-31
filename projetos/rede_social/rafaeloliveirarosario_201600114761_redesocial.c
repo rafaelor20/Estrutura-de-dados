@@ -160,15 +160,17 @@ int main(int argc, char* argv[]) {
 	FILE* input = fopen(argv[1], "r");
 	FILE* output = fopen(argv[2], "w");
 	// ...
-
+   printf("163");
    char* readline;
    char* writeline;
+   printf("ok 166");
+
    struct list lista;
    lista.noo = head;
    int i;
+   printf("ok 169");
 
-   for(int i = 0; i < argc; i++){
-      fgets(readline, 50, input);
+   while((fgets(readline, 50, input)) != NULL){
       if (readline[0] == 'A'){
          for(i = 0; i < 4; i++ ){
             readline++;

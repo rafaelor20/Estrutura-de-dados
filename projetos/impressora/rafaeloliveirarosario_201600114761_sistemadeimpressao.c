@@ -9,12 +9,21 @@ typedef struct elemento {
 	uint32_t valor ;
 } elemento ;
 
+typedef struct impressora{
+	elemento *imp;
+	uint32_t pag;
+}
 
 // Estrutura de pilha
 typedef struct pilha {
 	// Ponteiro para topo da pilha
 	elemento * T ;
-} pilha ;
+} pilha;
+
+
+
+
+
 
 int main(int argc, char* argv[]) {
 	// Ilustrando uso de argumentos de programa

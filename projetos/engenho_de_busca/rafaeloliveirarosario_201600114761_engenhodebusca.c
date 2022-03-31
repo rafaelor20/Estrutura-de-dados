@@ -17,6 +17,13 @@ typedef struct lista {
 	elemento * L ;
 } lista ;
 
+
+
+typedef struct lista {
+	// Ponteiro
+	elemento * L ;
+} lista ;
+
 // Função de busca sequencial em lista
 elemento * bseql ( lista L , uint32_t x ) {
 	// Ajustando ponteiros
