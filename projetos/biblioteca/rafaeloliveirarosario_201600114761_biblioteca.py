@@ -54,7 +54,7 @@ def binary_search_ite(lista, num):
     num = int(num)
     tentativas = 0
     esquerda = 0
-    direita = len(lista) - 1
+    direita = (len(lista)) - 1
     meio = (esquerda + direita) // 2
     aux_num = lista[meio]
     while (direita >= esquerda and num != aux_num):
@@ -63,7 +63,7 @@ def binary_search_ite(lista, num):
         if aux_num > num:
             direita = meio - 1
         else:
-            esqueda = meio + 1
+            esquerda = meio + 1
         meio = (esquerda + direita) // 2
     if num == aux_num:
         return (tentativas, True, meio)
@@ -95,8 +95,7 @@ def string_busca(busca,lista_num):
 def string_escrita(entrada,lista_livros):
     lista_cods = cods_livros(lista_livros)
     resultado = string_busca(entrada,lista_cods)
-    tbb = str(resultado[0][0])
-    tbi = str(resultado[1][0])
+    
     if (resultado[0][1] == True):
         livro = lista_livros[(resultado[0][2])]
         autor = autor_livro(livro)
@@ -106,6 +105,13 @@ def string_escrita(entrada,lista_livros):
     else:
         escrita = "["+entrada+"]"+"B="+tbb+",I="+tbi+":"+"ISBN NOT FOUND\n"
         return escrita
+
+def contagem_p(x, y, c):
+    if x > y:
+        c[1] = c[1] + 1
+    else:
+        c[0] = c[0] + 1
+    return c
 
 
 
@@ -128,8 +134,13 @@ def main(args):
     quant_de_buscas = entrada[i]
     i = i+1
     lista_livros.sort()
+    pontos = [0,0]
     while i < (len(entrada)):
+        resultado = string_busca(entrada[i], lista_livros)
+        tbb = str(resultado[0][0])
+        tbi = str(resultado[1][0])
         escrita = string_escrita(entrada[i], lista_livros)
+        contagem_p(,,pontos)
         output.write(escrita)
         i = i+1
     # Fechando os arquivos
