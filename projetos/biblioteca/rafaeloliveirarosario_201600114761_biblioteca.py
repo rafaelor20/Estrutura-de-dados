@@ -135,7 +135,7 @@ def main(args):
     while i <= quant_de_livros:
         lista_livros.append(entrada[i])
         i = i+1
-    quant_de_buscas = entrada[i]
+    quant_de_buscas = int(entrada[i])
     i = i+1
     lista_livros.sort()
     vitorias = [0,0]
@@ -156,7 +156,9 @@ def main(args):
     v_tbb = str(vitorias[0])
     v_tbi = str(vitorias[1])
     escrita = "BYNARY="+v_tbb+":"+media_tbb+"\n"
+    output.write(escrita)
     escrita = "INTERPOLATION="+v_tbi+":"+media_tbi
+    output.write(escrita)
     # Fechando os arquivos
     input.close()
     output.close()
