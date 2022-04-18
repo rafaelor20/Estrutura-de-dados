@@ -92,12 +92,10 @@ def string_busca(busca,lista_num):
     BI = busca_interpolacao(lista_num, busca)
     return [BB,BI]
 
-def string_escrita(entrada,lista_livros):
-    lista_cods = cods_livros(lista_livros)
-    resultado = string_busca(entrada,lista_cods)
-    
-    if (resultado[0][1] == True):
-        livro = lista_livros[(resultado[0][2])]
+def string_escrita(entrada, tbb, tbi, booleano,livro):
+    tbb = str(tbb)
+    tbi = str(tbi)
+    if (booleano == True):
         autor = autor_livro(livro)
         nome = nome_livro(livro)
         escrita = "["+entrada+"]"+"B="+tbb+",I="+tbi+":Author:"+autor+",Title:"+nome
@@ -106,14 +104,20 @@ def string_escrita(entrada,lista_livros):
         escrita = "["+entrada+"]"+"B="+tbb+",I="+tbi+":"+"ISBN NOT FOUND\n"
         return escrita
 
-def contagem_p(x, y, c):
+def contagem_v(x, y, c):
     if x > y:
         c[1] = c[1] + 1
     else:
         c[0] = c[0] + 1
     return c
 
+def soma_p(x,y,p):
+    p[0] = p[0] + x
+    p[1] = p[1] + y
+    return p 
 
+def media_t(x,y):
+    return x//y
 
 def main(args):
     # Ilustrando uso de argumentos de programa
@@ -134,15 +138,25 @@ def main(args):
     quant_de_buscas = entrada[i]
     i = i+1
     lista_livros.sort()
-    pontos = [0,0]
+    vitorias = [0,0]
+    total_passos = [0,0]
+    lista_cods = cods_livros(lista_livros)
     while i < (len(entrada)):
-        resultado = string_busca(entrada[i], lista_livros)
-        tbb = str(resultado[0][0])
-        tbi = str(resultado[1][0])
-        escrita = string_escrita(entrada[i], lista_livros)
-        contagem_p(,,pontos)
+        resultado = string_busca(entrada[i], lista_cods)
+        tbb = resultado[0][0]
+        tbi = resultado[1][0]
+        livro = lista_livros[resultado[0][2]]
+        escrita = string_escrita(entrada[i], tbb, tbi, resultado[0][1], livro)
+        contagem_v(tbb,tbi,vitorias)
+        soma_p(tbb, tbi, total_passos)
         output.write(escrita)
         i = i+1
+    media_tbb = str(media_t(total_passos[0], quant_de_buscas))
+    media_tbi = str(media_t(total_passos[1], quant_de_buscas))
+    v_tbb = str(vitorias[0])
+    v_tbi = str(vitorias[1])
+    escrita = "BYNARY="+v_tbb+":"+media_tbb+"\n"
+    escrita = "INTERPOLATION="+v_tbi+":"+media_tbi
     # Fechando os arquivos
     input.close()
     output.close()
