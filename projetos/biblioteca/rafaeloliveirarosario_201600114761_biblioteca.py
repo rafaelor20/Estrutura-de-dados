@@ -79,7 +79,7 @@ def busca_interpolacao(lista, x):
         tentativas = tentativas + 1
         m = i + ((lista[j] - lista[i]) % (j - i + 1))
         if x == lista[m]:
-            return (i,True,m)
+            return (tentativas,True,m)
         else:
             if x < lista[m]:
                 j = m - 1
@@ -95,6 +95,7 @@ def string_busca(busca,lista_num):
 def string_escrita(entrada, tbb, tbi, booleano,livro):
     tbb = str(tbb)
     tbi = str(tbi)
+    entrada = str(int(entrada))
     if (booleano == True):
         autor = autor_livro(livro)
         nome = nome_livro(livro)
@@ -105,7 +106,7 @@ def string_escrita(entrada, tbb, tbi, booleano,livro):
         return escrita
 
 def contagem_v(x, y, c):
-    if x > y:
+    if x >= y:
         c[1] = c[1] + 1
     else:
         c[0] = c[0] + 1
