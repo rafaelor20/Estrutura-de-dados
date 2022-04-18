@@ -4,6 +4,7 @@ import sys
 
 def separa_info(word):
     word = str(word)
+    #print(word)
     atr = word.split(" ")
     return atr
 
@@ -18,13 +19,26 @@ class Node:
 
     def setAtr(self, word):
         atr = separa_info(word)
-        self.data = atr[0]
-        self.perm = atr[1]
-        self.size = atr[2]
+        data = atr[0]
+        perm = atr[1]
+        size = atr[2]
+        data = data[2:]
+        perm = perm[1:]
+        size = size[1:]
+        data = data[:-2]
+        perm = perm[:-2]
+        size = size[:-4]
+        self.data = data
+        self.perm = perm
+        self.size = size
 
     def updateNode(self, perm, size):
+        #perm = perm[1:]
+        #size = size[1:]
+        #perm = perm[:-2]
+        #size = size[:-4]
         self.perm = perm
-        self.size = (size)
+        self.size = size
 
 
     #reescrever
@@ -39,7 +53,7 @@ class Node:
         if (self.data == None):
             return None
         elif (self.data == node.data):
-            return node
+            return self
         elif (self.left != None):
             if (self.data > node.data):
                 self.left.findData(node)
@@ -51,10 +65,12 @@ class Node:
 
     # Insert Node
     def insert(self, node):
-        data_aux = self.findData(node)
-        if data_aux != None:
-            if data_aux.perm == "rw":
-                data_aux.updateAtr(node.perm, node.size)
+        node_found = self.findData(node)
+        if node_found != None:
+            print(node_found.size)
+            if node_found.perm == "rw":
+                print(node.size)
+                node_found.updateNode(node.perm, node.size)
         else:
             self.insert_aux(node)
 
@@ -85,9 +101,9 @@ class Node:
     def InOrderTraversal(self, root):
         res = []
         if root:
-            res = self.InOrderTraversal(root)
-            res.append(root.data)
-            res = res + self.InOrderTraversal(root)
+            res = self.InOrderTraversal(root.left)
+            res.append(root)
+            res = res + self.InOrderTraversal(root.right)
         return res
 
     # Preorder traversal
@@ -95,9 +111,9 @@ class Node:
     def PreOrderTraversal(self, root):
         res = []
         if root:
-            res.append(root.data)
-            res = res + self.PreorderTraversal(root.left)
-            res = res + self.PreorderTraversal(root.right)
+            res.append(root)
+            res = res + self.PreOrderTraversal(root.left)
+            res = res + self.PreOrderTraversal(root.right)
         return res
 
     # Postorder traversal
@@ -105,13 +121,13 @@ class Node:
     def PostOrderTraversal(self, root):
         res = []
         if root:
-            res = self.PostorderTraversal(root.left)
-            res = res + self.PostorderTraversal(root.right)
-            res.append(root.data)
+            res = self.PostOrderTraversal(root.left)
+            res = res + self.PostOrderTraversal(root.right)
+            res.append(root)
         return res
 
     def nodeToString(self):
-        frase = " "+str(self.nome)+" "+str(self.perm)+" "+str(self.size)+" bytes"
+        frase = " "+self.data+" "+self.perm+" "+self.size+" bytes\n"
         return frase
 
 def main(args):
@@ -125,37 +141,36 @@ def main(args):
     # ...
     entrada = input.readlines()
     q_arquivos = entrada[0]
+    lista_nos = []
     quant_elem = 0
     root = Node()
     root.setAtr(separa_info(entrada[1]))
-
-    lista_nos = []
     i = 2
     while i < len(entrada):
         newNode = Node()
         newNode.setAtr(separa_info(entrada[i]))
         root.insert(newNode)
         i = i+1
-
-    output.write("EPD:")
+    
+    output.write("EPD:\n")
     EPD = root.InOrderTraversal(root)
     i = 0
     while i < len(EPD):
-        output.writelines(EPD[i])
+        output.writelines(EPD[i].nodeToString())
         i = i+1
 
-    output.write("PED:")
+    output.write("PED:\n")
     PED = root.PreOrderTraversal(root)
     i = 0
     while i < len(PED):
-        output.writelines(PED[i])
+        output.writelines(PED[i].nodeToString())
         i = i+1
     
-    output.write("EDP:")
+    output.write("EDP:\n")
     EDP = root.PostOrderTraversal(root)
     i = 0
     while i < len(EDP):
-        output.writelines(EDP[i])
+        output.writelines(EDP[i].nodeToString())
         i = i+1
     # Fechando os arquivos
     input.close()
