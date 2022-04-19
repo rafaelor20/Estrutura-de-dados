@@ -89,8 +89,6 @@ class Node:
         node_found = self.findData(node)
         if node_found != None:
             if node_found.perm == "rw":
-                print(node_found.pos)
-                print(self.bigPos(self.pos))
                 self.updateTreePos(node_found.pos)
                 node.pos = (self.bigPos(self.pos))+1
                 node_found.updateNode(node.perm, node.size, node.pos)
