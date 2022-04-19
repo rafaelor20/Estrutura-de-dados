@@ -1,5 +1,3 @@
-from asyncio.windows_events import NULL
-from math import perm
 import sys
 
 def separa_info(word):
@@ -8,7 +6,6 @@ def separa_info(word):
     atr = word.split(" ")
     return atr
 
-
 class Node:
     def __init__(self):
         self.left = None
@@ -16,6 +13,7 @@ class Node:
         self.data = None
         self.perm = None
         self.size = None
+        self.pos = None
 
     def setAtr(self, word):
         atr = separa_info(word)
@@ -32,14 +30,37 @@ class Node:
         self.perm = perm
         self.size = size
 
-    def updateNode(self, perm, size):
+    def updateNode(self, perm, size, pos):
         #perm = perm[1:]
         #size = size[1:]
         #perm = perm[:-2]
         #size = size[:-4]
         self.perm = perm
         self.size = size
+        self.pos = pos
 
+    def updateTreePos(self, pos):
+        if self.pos != None:
+            if self.pos > pos:
+                self.pos = (self.pos)-1
+        if self.left != None:
+            self.left.updateTreePos(pos)
+        if self.right != None:
+            self.right.updateTreePos(pos)
+
+    def bigPos(self, pos):
+        if self.pos > pos:
+            pos = self.pos
+        if self.left != None:
+            if self.left.bigPos(pos) > pos:
+                pos = self.left.bigPos(pos)
+        if self.right != None:
+            if self.right.bigPos(pos) > pos:
+                self.right.bigPos(pos)
+        return pos
+
+    def setPos(self, pos):
+        self.pos = pos
 
     #reescrever
     def p_rewrite(self):
@@ -67,10 +88,12 @@ class Node:
     def insert(self, node):
         node_found = self.findData(node)
         if node_found != None:
-            print(node_found.size)
             if node_found.perm == "rw":
-                print(node.size)
-                node_found.updateNode(node.perm, node.size)
+                print(node_found.pos)
+                print(self.bigPos(self.pos))
+                self.updateTreePos(node_found.pos)
+                node.pos = (self.bigPos(self.pos))+1
+                node_found.updateNode(node.perm, node.size, node.pos)
         else:
             self.insert_aux(node)
 
@@ -87,14 +110,6 @@ class Node:
                 self.right = node
             else:
                 self.right.insert_aux(node)
-
-    # Print the Tree               
-    def PrintTree(self):
-        if self.left:
-            self.left.PrintTree()
-        print( self.data),
-        if self.right:
-            self.right.PrintTree()
 
     #Inorder traversal
     # left -> root -> right
@@ -127,7 +142,8 @@ class Node:
         return res
 
     def nodeToString(self):
-        frase = " "+self.data+" "+self.perm+" "+self.size+" bytes\n"
+        self.pos = str(self.pos)
+        frase = str(self.pos)+" "+self.data+" "+self.perm+" "+self.size+" bytes\n"
         return frase
 
 def main(args):
@@ -140,14 +156,13 @@ def main(args):
     output = open(sys.argv[2],'w')
     # ...
     entrada = input.readlines()
-    q_arquivos = entrada[0]
-    lista_nos = []
-    quant_elem = 0
     root = Node()
+    root.setPos(1)
     root.setAtr(separa_info(entrada[1]))
     i = 2
     while i < len(entrada):
         newNode = Node()
+        newNode.setPos(i)
         newNode.setAtr(separa_info(entrada[i]))
         root.insert(newNode)
         i = i+1
@@ -172,6 +187,7 @@ def main(args):
     while i < len(EDP):
         output.writelines(EDP[i].nodeToString())
         i = i+1
+
     # Fechando os arquivos
     input.close()
     output.close()
