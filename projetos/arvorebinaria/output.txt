@@ -1,15 +1,15 @@
 EPD:
-4 documento.doc rw 64732 bytes
-3 foto.jpg rw 8374719 bytes
-1 lista_ed.c ro 1 bytes
-2 senhas.txt ro 144 bytes
+3 documento.doc rw 64732 bytes
+2 foto.jpg rw 8374719 bytes
+4 lista_ed.c ro 1 bytes
+1 senhas.txt ro 144 bytes
 PED:
-1 lista_ed.c ro 1 bytes
-3 foto.jpg rw 8374719 bytes
-4 documento.doc rw 64732 bytes
-2 senhas.txt ro 144 bytes
+4 lista_ed.c ro 1 bytes
+2 foto.jpg rw 8374719 bytes
+3 documento.doc rw 64732 bytes
+1 senhas.txt ro 144 bytes
 EDP:
-4 documento.doc rw 64732 bytes
-3 foto.jpg rw 8374719 bytes
-2 senhas.txt ro 144 bytes
-1 lista_ed.c ro 1 bytes
+3 documento.doc rw 64732 bytes
+2 foto.jpg rw 8374719 bytes
+1 senhas.txt ro 144 bytes
+4 lista_ed.c ro 1 bytes

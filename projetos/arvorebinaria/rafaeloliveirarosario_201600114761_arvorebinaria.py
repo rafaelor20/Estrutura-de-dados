@@ -91,9 +91,9 @@ class Node:
         node_found = self.findData(node)
         if node_found != None:
             if node_found.perm == "rw":
-                #self.updateTreePos(node_found.pos)
+                self.updateTreePos(node_found.pos)
                 node.pos = (self.bigPos(self.pos))+1
-                node_found.updateNode2(node.perm, node.size)
+                node_found.updateNode(node.perm, node.size, node.pos)
         else:
             self.insert_aux(node)
 
@@ -113,33 +113,42 @@ class Node:
 
     #Inorder traversal
     # left -> root -> right
-    def InOrderTraversal(self, root):
-        res = []
+    def InOrderTraversal(self, root, output):
+        #res = []
         if root:
-            res = self.InOrderTraversal(root.left)
-            res.append(root)
-            res = res + self.InOrderTraversal(root.right)
-        return res
+            self.InOrderTraversal(root.left, output)
+            #res = self.InOrderTraversal(root.left)
+            #res.append(root)
+            output.write(root.nodeToString())
+            self.InOrderTraversal(root.right, output)
+            #res = res + self.InOrderTraversal(root.right)
+        #return res
 
     # Preorder traversal
     # Root -> Left ->Right
-    def PreOrderTraversal(self, root):
-        res = []
+    def PreOrderTraversal(self, root, output):
+        #res = []
         if root:
-            res.append(root)
-            res = res + self.PreOrderTraversal(root.left)
-            res = res + self.PreOrderTraversal(root.right)
-        return res
+            #res.append(root)
+            output.write(root.nodeToString())
+            self.PreOrderTraversal(root.left, output)
+            self.PreOrderTraversal(root.right, output)
+            #res = res + self.PreOrderTraversal(root.left)
+            #res = res + self.PreOrderTraversal(root.right)
+        #return res
 
     # Postorder traversal
     # Left ->Right -> Root
-    def PostOrderTraversal(self, root):
-        res = []
+    def PostOrderTraversal(self, root, output):
+        #res = []
         if root:
-            res = self.PostOrderTraversal(root.left)
-            res = res + self.PostOrderTraversal(root.right)
-            res.append(root)
-        return res
+            self.PostOrderTraversal(root.left, output)
+            self.PostOrderTraversal(root.right, output)
+            #res = self.PostOrderTraversal(root.left)
+            #res = res + self.PostOrderTraversal(root.right)
+            #res.append(root)
+            output.write(root.nodeToString())
+        #return res
 
     def nodeToString(self):
         self.pos = str(self.pos)
@@ -169,25 +178,28 @@ def main(args):
         i = i+1
     
     output.write("EPD:\n")
-    EPD = root.InOrderTraversal(root)
-    i = 0
-    while i < len(EPD):
-        output.writelines(EPD[i].nodeToString())
-        i = i+1
+    root.InOrderTraversal(root, output)
+    #EPD = root.InOrderTraversal(root)
+    #i = 0
+    #while i < len(EPD):
+    #    output.writelines(EPD[i].nodeToString())
+    #    i = i+1
 
     output.write("PED:\n")
-    PED = root.PreOrderTraversal(root)
-    i = 0
-    while i < len(PED):
-        output.writelines(PED[i].nodeToString())
-        i = i+1
+    root.PreOrderTraversal(root, output)
+    #PED = root.PreOrderTraversal(root, output)
+    #i = 0
+    #while i < len(PED):
+    #    output.writelines(PED[i].nodeToString())
+    #    i = i+1
     
     output.write("EDP:\n")
-    EDP = root.PostOrderTraversal(root)
-    i = 0
-    while i < len(EDP):
-        output.writelines(EDP[i].nodeToString())
-        i = i+1
+    root.PostOrderTraversal(root, output)
+    #EDP = root.PostOrderTraversal(root)
+    #i = 0
+    #while i < len(EDP):
+    #    output.writelines(EDP[i].nodeToString())
+    #    i = i+1
 
     # Fechando os arquivos
     input.close()
