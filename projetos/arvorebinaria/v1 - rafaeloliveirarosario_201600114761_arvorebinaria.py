@@ -1,7 +1,6 @@
 import sys
 import time
 
-
 def separa_info(word):
     word = str(word)
     #print(word)
@@ -33,13 +32,13 @@ class Node:
         self.size = size
 
     def updateNode(self, perm, size, pos):
+        #perm = perm[1:]
+        #size = size[1:]
+        #perm = perm[:-2]
+        #size = size[:-4]
         self.perm = perm
         self.size = size
         self.pos = pos
-
-    def updateNode2(self, perm, size):
-        self.perm = perm
-        self.size = size
 
     def updateTreePos(self, pos):
         if self.pos != None:
@@ -91,9 +90,9 @@ class Node:
         node_found = self.findData(node)
         if node_found != None:
             if node_found.perm == "rw":
-                #self.updateTreePos(node_found.pos)
+                self.updateTreePos(node_found.pos)
                 node.pos = (self.bigPos(self.pos))+1
-                node_found.updateNode2(node.perm, node.size)
+                node_found.updateNode(node.perm, node.size, node.pos)
         else:
             self.insert_aux(node)
 
@@ -147,8 +146,8 @@ class Node:
         return frase
 
 def main(args):
-    start_time = time.time()
     # Ilustrando uso de argumentos de programa
+    start_time = time.time()
     print("#ARGS = %i" %len((args)))
     print("PROGRAMA = %s" %(args[0]))
     print("ARG1 = %s, ARG2 = %s" %(args[1], args[2]))
