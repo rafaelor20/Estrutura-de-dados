@@ -141,6 +141,34 @@ class Node:
             res.append(root)
         return res
 
+    #Inorder traversal
+    # left -> root -> right
+    def InOrderTraversal2(self, root, output):
+        
+        if root:
+            self.InOrderTraversal2(root.left, output)
+            output.write(root.nodeToString())
+            self.InOrderTraversal2(root.right, output)
+        
+
+    # Preorder traversal
+    # Root -> Left ->Right
+    def PreOrderTraversal2(self, root, output):
+        if root:
+            output.write(root.nodeToString())
+            self.PreOrderTraversal2(root.left, output)
+            self.PreOrderTraversal2(root.right, output)
+
+    # Postorder traversal
+    # Left ->Right -> Root
+    def PostOrderTraversal2(self, root, output):
+        
+        if root:
+            self.PostOrderTraversal2(root.left, output)
+            self.PostOrderTraversal2(root.right, output)
+            output.write(root.nodeToString())
+        
+
     def nodeToString(self):
         self.pos = str(self.pos)
         frase = str(self.pos)+" "+self.data+" "+self.perm+" "+self.size+" bytes\n"
@@ -169,25 +197,28 @@ def main(args):
         i = i+1
     
     output.write("EPD:\n")
-    EPD = root.InOrderTraversal(root)
-    i = 0
-    while i < len(EPD):
-        output.writelines(EPD[i].nodeToString())
-        i = i+1
+    #EPD = root.InOrderTraversal(root)
+    #i = 0
+    #while i < len(EPD):
+    #    output.writelines(EPD[i].nodeToString())
+    #    i = i+1
+    root.InOrderTraversal2(root, output)
 
     output.write("PED:\n")
-    PED = root.PreOrderTraversal(root)
-    i = 0
-    while i < len(PED):
-        output.writelines(PED[i].nodeToString())
-        i = i+1
+    #PED = root.PreOrderTraversal(root)
+    #i = 0
+    #while i < len(PED):
+    #    output.writelines(PED[i].nodeToString())
+    #    i = i+1
+    root.PreOrderTraversal2(root, output)
     
     output.write("EDP:\n")
-    EDP = root.PostOrderTraversal(root)
-    i = 0
-    while i < len(EDP):
-        output.writelines(EDP[i].nodeToString())
-        i = i+1
+    #EDP = root.PostOrderTraversal(root)
+    #i = 0
+    #while i < len(EDP):
+    #    output.writelines(EDP[i].nodeToString())
+    #    i = i+1
+    root.PostOrderTraversal2(root, output)
 
     # Fechando os arquivos
     input.close()

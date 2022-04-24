@@ -1,48 +1,27 @@
 import sys
-
-def getWord(frase):
-    temp = frase.split(" ")
-    word = temp[0]
-    return word
-
-def getLSino(frase):
-    sino = frase.split(" ")
-    sino.pop(0)
-    sino.pop(1)
-    return sino
-
-def getSino(lista):
-    espaco = " "
-    frase = espaco.join(lista)
-    return frase
+import time
 
 class treeNode(object):
-    def __init__(self, value):
+    def __init__(self, value, sino):
         self.value = value
-        self.sino = []
+        self.sino = sino
         self.l = None
         self.r = None
         self.h = 1
 
-    def getValue(self):
-        return self.value
-
-    def setSino(self, sino):
+    def setSino (self, sino):
         self.sino = sino
-        
-    def getSino(self):
-        return self.sino
 
 class AVLTree(object):
 
-    def insert(self, root, key):
+    def insert(self, root, key, sino):
 
         if not root:
-            return treeNode(key)
+            return treeNode(key, sino)
         elif key < root.value:
-            root.l = self.insert(root.l, key)
+            root.l = self.insert(root.l, key, sino)
         else:
-            root.r = self.insert(root.r, key)
+            root.r = self.insert(root.r, key, sino)
 
         root.h = 1 + max(self.getHeight(root.l),self.getHeight(root.r))
 
@@ -99,23 +78,66 @@ class AVLTree(object):
     def getBal(self, root):
         if not root:
             return 0
-            
+
         return self.getHeight(root.l) - self.getHeight(root.r)
-        
+
     def preOrder(self, root):
+
         if not root:
             return
-            
+
+        print("{0} ".format(root.value), end="")
         self.preOrder(root.l)
         self.preOrder(root.r)
-        
-    def buscaWord(self, word):
-        caminho = []
-        if self == None:
-            return [caminho,[]]
-       # elif self.value
+
+    def buscador(self, root, value, caminho, output):
+        if not root:
+            caminho = caminho + "->?]"
+            caminho = "[" + caminho[2:]
+            resultado = caminho + "\n" + "-\n"
+            output.writelines(resultado)
+        elif root.value == value:
+            caminho = caminho + "->" + value + "]"
+            caminho = "[" + caminho[2:]
+            resultado = caminho + "\n" + root.sino + "\n"
+            output.writelines(resultado)
+        elif root.value > value:
+            caminho = caminho + "->" + root.value
+            self.buscador(root.l, value, caminho, output)
+        elif root.value < value:
+            caminho = caminho + "->" + root.value
+            self.buscador(root.r, value, caminho, output)
+
+def get_Word(frase):
+    i = 0
+    word = ""
+    while frase[i] != " ":
+        word = word+frase[i]
+        i = i+1
+    return word
+
+def get_Sino(frase):
+    i = 0
+    while frase[i] != " ":
+        i = i+1
+    frase = frase[(i+3):]
+    frase = frase[:-1]
+    i = 0
+    sino = ""
+    while i < len(frase):
+        if frase[i] == " ":
+            sino = sino + ","
+        else:
+            sino = sino + frase[i]
+        i = i+1
+    #if sino[-1] == "\n":
+    #    sino = sino [:-1]
+    return sino
 
 def main(args):
+
+    start_time = time.time()
+
     # Ilustrando uso de argumentos de programa
     print("#ARGS = %i" %len((args)))
     print("PROGRAMA = %s" %(args[0]))
@@ -127,19 +149,30 @@ def main(args):
     entrada = input.readlines()
     quant_palavras = int(entrada[0])
     Tree = AVLTree()
+    root = None
     i = 1
     while i <= quant_palavras:
-        root = None
-        root.setSino(getLSino(entrada[i]))
-        Tree.insert(root, getWord(entrada[i]))
+        value = get_Word(entrada[i])
+        sino = get_Sino(entrada[i])
+        print("linha: "+str(i))
+        root = Tree.insert(root, value, sino)
         i = i+1
-
-    
+    i = i+1
+    saida = ""
+    while i < len(entrada):
+        busca = entrada[i]
+        busca = busca[:-1]
+        print("busca: "+busca)
+        print("linha: "+i)
+        Tree.buscador(root, busca, "", output)
+        i = i+1
     
     # Fechando os arquivos
     input.close()
     output.close()
     #Finalizando programa
+
+    print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     main(sys.argv)

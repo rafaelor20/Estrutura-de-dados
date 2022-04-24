@@ -87,31 +87,20 @@ class AVLTree(object):
 		print("{0} ".format(root.value), end="")
 		self.preOrder(root.l)
 		self.preOrder(root.r)
-		
-	def findRoot(self, node):
-		if not node:
-			return
-		else:
-			if self.getHeight(node) == 1:
-				return node
-		self.findRoot(node.l)
-		self.findRoot(node.r)
 
 Tree = AVLTree()
 root = None
 
-root = Tree.insert(root, 1)
-root = Tree.insert(root, 2)
-root = Tree.insert(root, 3)
-root = Tree.insert(root, 4)
-root = Tree.insert(root, 5)
-root = Tree.insert(root, 6)
+root = Tree.insert(root, "a1")
+root = Tree.insert(root, "c2")
+root = Tree.insert(root, "x3")
+root = Tree.insert(root, "g4")
+root = Tree.insert(root, "r5")
+root = Tree.insert(root, "b6")
+root = Tree.insert(root, "qwer")
+print(root.l.r.value)
 
 
 # Preorder Traversal
-print("Preorder traversal of the",
-	"constructed AVL tree is")
-#Tree.preOrder(root)
-#root = Tree.findRoot(root)
-#print(Tree.getHeight(root))
-print(2^3)
+print("Preorder traversal of the constructed AVL tree is")
+Tree.preOrder(root)

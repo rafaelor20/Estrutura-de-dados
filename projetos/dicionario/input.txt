@@ -8,3 +8,5 @@ trabalho 3 atividade tarefa missao
 facil
 demais
 zero
+elegante
+nada
