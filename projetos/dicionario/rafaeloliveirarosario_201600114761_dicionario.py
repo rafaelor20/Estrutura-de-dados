@@ -163,7 +163,7 @@ def main(args):
         busca = entrada[i]
         busca = busca[:-1]
         print("busca: "+busca)
-        print("linha: "+i)
+        print("linha: "+str(i))
         Tree.buscador(root, busca, "", output)
         i = i+1
     
