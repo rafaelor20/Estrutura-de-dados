@@ -169,7 +169,7 @@ class Node:
         return frase
 
 def main(args):
-    start_time = time.time()
+    #start_time = time.time()
     # Ilustrando uso de argumentos de programa
     print("#ARGS = %i" %len((args)))
     print("PROGRAMA = %s" %(args[0]))
@@ -203,7 +203,7 @@ def main(args):
     input.close()
     output.close()
     #Finalizando programa
-    print("Process finished --- %s seconds ---" % (time.time() - start_time))
+    #print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     main(sys.argv)
