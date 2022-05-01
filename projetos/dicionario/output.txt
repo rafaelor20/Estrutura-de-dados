@@ -1,0 +1,10 @@
+[elegante->nada->facil]
+simples,ed
+[elegante->demais]
+bastante,numeroso,demasiado,abundante,excessivo
+[elegante->nada->trabalho->?]
+-
+[elegante]
+natural,descomplicado,trivial
+[elegante->nada]
+zero,vazio,osso,nulo

@@ -1,5 +1,5 @@
 import sys
-import time
+#import time
 
 class treeNode(object):
     def __init__(self, value, sino):
@@ -119,8 +119,11 @@ def get_Word(frase):
 def get_Sino(frase):
     i = 0
     while frase[i] != " ":
-        i = i+1
-    frase = frase[(i+3):]
+        frase = frase[1:]
+    frase = frase[1:]
+    while frase[i] != " ":
+        frase = frase[1:]
+    frase = frase[1:]
     frase = frase[:-1]
     i = 0
     sino = ""
@@ -130,13 +133,11 @@ def get_Sino(frase):
         else:
             sino = sino + frase[i]
         i = i+1
-    #if sino[-1] == "\n":
-    #    sino = sino [:-1]
     return sino
 
 def main(args):
 
-    start_time = time.time()
+    #start_time = time.time()
 
     # Ilustrando uso de argumentos de programa
     print("#ARGS = %i" %len((args)))
@@ -154,7 +155,7 @@ def main(args):
     while i <= quant_palavras:
         value = get_Word(entrada[i])
         sino = get_Sino(entrada[i])
-        print("linha: "+str(i))
+        #print("linha de insercao: "+str(i))
         root = Tree.insert(root, value, sino)
         i = i+1
     i = i+1
@@ -162,8 +163,8 @@ def main(args):
     while i < len(entrada):
         busca = entrada[i]
         busca = busca[:-1]
-        print("busca: "+busca)
-        print("linha: "+str(i))
+        #print("busca: "+busca)
+        #rint("linha: "+str(i))
         Tree.buscador(root, busca, "", output)
         i = i+1
     
@@ -172,7 +173,7 @@ def main(args):
     output.close()
     #Finalizando programa
 
-    print("Process finished --- %s seconds ---" % (time.time() - start_time))
+    #print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     main(sys.argv)
