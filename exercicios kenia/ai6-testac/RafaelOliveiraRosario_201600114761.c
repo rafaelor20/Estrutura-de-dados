@@ -22,6 +22,7 @@
 
 typedef char Str20[20];
 int L[] = {1,2,3,4,5,6,7,8};
+int quant_chamados = 0;
 struct Reg{
 	Str20 Taxista; //nome
 	void *Prox;
@@ -47,6 +48,13 @@ void EmFila(Str20 S){
 	Fim=Aux;} 
 }
 
+void olhaFila(){
+  Aux=(TpReg *) malloc(sizeof(TpReg));
+  while (quant_chamados > 0){
+    Inicio = Inicio->Prox;
+    quant_chamados = quant_chamados - 1;
+  }
+}
 
 //Para incluir taxista.
 void Incluir() {
@@ -57,17 +65,15 @@ void Incluir() {
     printf("Nome do Taxista: ");
     scanf("%s",T);
     fflush(stdin);
-    
     //inclusao da taxista na fila
     EmFila(T);
-	  
+    olhaFila();
     printf("\nOutro taxista? S/N\n");
-    scanf("%c",&R);
+    scanf(" %c", &R);
     fflush(stdin);
-    R=toupper(R);
-    printf("Letra R: %c",&R);}
+    R=toupper(R);}
   while (R =='S');
-  return;}
+}
 
 //Para atender chamada
 void Remover(Str20 Titulo){
@@ -79,6 +85,7 @@ void Remover(Str20 Titulo){
     //remover da fila de taxistas
     if ((Inicio==NULL) && (Fim==NULL)){
       printf("Lista de Taxistas Vazia\n\n");
+      quant_chamados = quant_chamados + 1;
       system("pause");
       R='N';}
     else{
