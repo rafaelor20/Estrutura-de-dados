@@ -36,23 +36,33 @@ TpReg *Aux;
 
 int Opcao;
 
+//Insere registro do taxista no fim da fila
 void EmFila(Str20 S){
   Aux=(TpReg *) malloc(sizeof(TpReg));
   strcpy(Aux->Taxista,S);
   Aux->Prox=NULL;
   if ((Inicio==NULL) && (Fim==NULL)){
     Inicio=Aux;
-	Fim=Aux;}
+	}
   else{
-    Fim->Prox=Aux;
-	Fim=Aux;} 
+    Fim->Prox = Aux;
+	}
+  Fim = Aux;
 }
 
+//Verifica se há clientes esperando por taxistas
+//Se houver, o primeiro sera removido
 void olhaFila(){
   Aux=(TpReg *) malloc(sizeof(TpReg));
   while (quant_chamados > 0){
-    Inicio = Inicio->Prox;
-    quant_chamados = quant_chamados - 1;
+    if (Inicio == NULL){
+      //free(Aux);
+      break;
+    }
+    else{
+      Remover();
+      quant_chamados = quant_chamados - 1;
+    }
   }
 }
 
@@ -60,7 +70,7 @@ void olhaFila(){
 void Incluir() {
   char R;
   do{
-    system("cls");
+    //system("cls");
     printf("*** Chegada de Taxista ***\n\n");
     printf("Nome do Taxista: ");
     scanf("%s",T);
@@ -75,70 +85,85 @@ void Incluir() {
   while (R =='S');
 }
 
-//Para atender chamada
-void Remover(Str20 Titulo){
-  char R;
-  do{
-    system("cls");
-    printf("%s \n\n",Titulo);
- 
-    //remover da fila de taxistas
+//atende a chamada do usuario por taxistas
+void atendeChamada(){
+  char R = 'S';
+  while (R =='S'){
+    Remover();
+    printf("Efetuar novo atendimento? S/N \n");
+    scanf(" %c",&R);
+    fflush(stdin);
+    R=toupper(R);
+  }
+}
+
+//Remove o primeiro taxista da lista
+void Remover(){
     if ((Inicio==NULL) && (Fim==NULL)){
       printf("Lista de Taxistas Vazia\n\n");
       quant_chamados = quant_chamados + 1;
-      system("pause");
-      R='N';}
+      //system("pause");
+    }
     else{
       printf("Taxista: ");
-      printf(" %s \n\n", Inicio->Taxista);
-      Aux = Inicio;
-      Inicio=Inicio->Prox;
-      free(Aux);
+      printf("%s \n\n", Inicio->Taxista);
+      if (Inicio == Fim){
+        Aux = Inicio;
+        Inicio = NULL;
+        Fim = NULL;
+        free(Aux);
+      }
+      else {
+        Aux = Inicio;
+        Inicio=Inicio->Prox;
+        free(Aux);
+      }
       if (Inicio==NULL){
-        Fim=NULL;}
-      printf("Efetuar novo atendimento? S/N \n");
-      scanf(" %c", &R);
-      fflush(stdin);
-      R=toupper(R);}}
-  while (R!='N');
-  return;}
+        Fim=NULL;
+      }
+    }
+}
 
+//Mostra a lista de taxistas a espera de uma chamada
 void LTodos(int K[]) {
   //system("cls");
-  printf("***Fila de Taxistas***\n\n ");
+  printf("\nFila de clientes: ");
+  printf("%d\n\n", quant_chamados);
+  printf("***Fila de Taxistas***\n\n");
   if (Inicio!= NULL){
-	Aux = Inicio;
-	do{
-	  printf("%s\n",Aux->Taxista);
-	  Aux=Aux->Prox;}
-	while (Aux!=NULL);}
+	  Aux = Inicio;
+	  do{
+	    printf("%s, ", Aux->Taxista);
+	    Aux=Aux->Prox;}
+	  while (Aux!=NULL);
+  }
   else
-    printf("\nLista de afazeres vazia. Pressione <ENTER>\n");  
-  system("pause");}
+    printf("Fila de taxistas vazia\n");  
+  //system("pause");
+  }
 
 int main(){
   do{ 
-	system("cls");
+	  //system("cls");
     printf("\n\n> > > Charme Taxis < < < \n\n");
-    printf("Taxistas disponiveis: ");
     if (Inicio!= NULL){
-	  Aux = Inicio;
-	  do{
-	    printf("%s ",Aux->Taxista);
-	    Aux=Aux->Prox;}
-	  while (Aux!=NULL);
+	    Aux = Inicio;
+	    do{
+	      printf("%s ",Aux->Taxista);
+	      Aux=Aux->Prox;}
+	    while (Aux!=NULL);
     }
     printf("\n\nQue deseja fazer? \n\n");
     printf("1 - Chegada de Taxista \n"); 
     printf("2 - Chamada de Cliente \n"); //taxista é removido da fila
-    printf("3 - Listar Todos \n");
+    printf("3 - Listar Taxistas \n");
     printf("4 - Sair \n\n");
     printf("Opcao: ");
     scanf("%d",&Opcao);
     fflush(stdin);
     switch (Opcao){
       case 1: Incluir(); break;
-      case 2: Remover("*** Atender Chamada ***"); break;
+      case 2: atendeChamada(); break;
       case 3: LTodos(L); break;}}
   while (Opcao != 4);
   return 0;}

@@ -44,7 +44,7 @@ void EmFila(Str20 S){
 	Fim=Aux;}
   else{
     Fim->Prox=Aux;
-	Fim=Aux;} 
+	Fim=Aux;}
 }
 
 
